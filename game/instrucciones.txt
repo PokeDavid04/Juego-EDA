@@ -1,0 +1,90 @@
+    FURYANS
+
+typedef vector<int> VI;                 //Vector de id's para mis furyans
+
+VI F = furyans(me());                   //Meter los id's de los furyans en el vector
+int n = F.size();                       //Guardar cuantos furyans tengo
+VI perm = random_permutation(n);        //Seleccionar el orden de tratamiento de los furyans (aqui random)
+
+for(int id : F){                 //Iteramos para cada furyan
+    //int id = F[perm[i]];
+    //acciones
+}
+
+//Si hay un enemigo al lado atacamos 
+bool enemy = false;
+for (int k = 0; not enemy and k < 8; ++k) {
+    Pos p = unit(id).pos;
+    if (pos_ok(p)) {
+        int id2 = cell(p).id; (p+k)¿?
+        if (id2 != -1 and unit(id2).player != me()) {
+            enemy = true;
+            command(id, Dir(k));
+        }
+    }
+}
+(¿Si siempre hace las mismas instrucciones esta revisando todas las contiguas? 
+¿No revisa 8 veces lo mismo?)
+
+Pos p = unit(id).pos;                   //Guardar posicion del furyan
+pos_ok(p);                              //Devuelve si la posicion es correcta (esta dentro del tablero)
+command(id, move);                      //Mueve el furyan (Left, Right, Bottom, Top, LB, LT, RB, RT, Up, Down, None)
+cell(unit(id).pos).type == Elevator     //Comprueva si el furyan esta en un ascensor
+round()                                 //Devuelve el numero de ronda
+unit(id).health                         //Devuelve los puntos de salud que le quedan
+daylight(Pos(0, 0, 1))                  //Devuelve si es de dia en esa posicion
+nb_cells(me())                          //Devuelve el numero de celdas conquistadas por mi
+nb_gems(me())                           //Devuelve el numero de gemas conseguidas por mi
+cell(Pos(2, 2, 1)).gem                  //Devuelve si en la posicion hay una gema
+
+
+
+    PIONEERS
+
+vector<int> P = pioneers(me());         //Vector de id's para mis pioneers
+
+for (int id : P){                       //Iteramos para cada pioneer                   
+    //acciones
+}
+
+Dir(x);                                 //Devuelve la direccion equivalente dentro del enum
+
+
+
+    ESTRATEGIA PIONEERS
+
+BFS - Si encuentra un enemigo descartar esa dirección (Lista de direcciones no seguras)
+    - Si encuentra una casilla sin pintar por nosotros guardar esa dirección (Cola de direcciones favorables)
+
+Comprobar las direcciones favorables - Si esta en la lista de direcciones no seguras la movemos a Cola de poco favorables
+                                     - Si es una pared descartamos
+                                     - Si es segura y podemos ir nos movemos
+Extra: Si la casilla sin pintar esta pintada por otro priorizar (para restarle al contrincante y sumar nosotros)
+Extra: Si la casilla sin pintar esta al lado de una pintada ya por nosotros priorizar  
+       (para no ir siempre en linea recta)
+ 
+
+
+int direc(Pos p, Pos p2){       //Devuelve la direccion que hay que seguir para llegar de p a p2 (algoritmo A*)
+    string dir;
+    if(p.i > p2.i){ //abajo
+      if(p.j > p2.j) return LB;
+      else if(p.j < p2.j) return TL;
+      else return Left;
+    }
+    else if(p.i < p2.i){ //arriba
+      if(p.j > p2.j) return BR;
+      else if(p.j < p2.j) return RT;
+      else return Right;
+    }
+    else{ //misma fila
+      if(p.j > p2.j) return Bottom;
+      else if(p.j < p2.j) return Top;
+      else return 1;
+    }
+}
+
+
+
+
+nb_cells(cell(p).owner) //numero de celdas de el propietario de la casilla p
